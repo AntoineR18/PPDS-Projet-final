@@ -13,6 +13,7 @@ def main():
         "photoLink",
         "videoLink",
         "addDistance",
+        "team",
     ]
 
     cols_existing = [c for c in cols_to_drop if c in df.columns]
