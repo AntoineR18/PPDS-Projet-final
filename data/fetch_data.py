@@ -56,7 +56,6 @@ def main():
         rows.append(merged)
 
         print(f"{i+1}/{len(sample)}")
-        time.sleep(0.1)
 
     df = pl.from_dicts(rows, infer_schema_length=len(rows))
     df.write_csv("data/test_splits_clean.csv")
