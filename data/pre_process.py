@@ -1,6 +1,10 @@
 import polars as pl
 
 
+INPUT_PATH = "PPDS-Projet-final/data/test_splits_clean.csv"
+OUTPUT_PATH = "PPDS-Projet-final/data/donnees_finales.parquet"
+
+
 def parse_hhmmss_seconds(col_name: str) -> pl.Expr:
     """Convertit une colonne "HH:MM:SS" en Int64."""
     split = pl.col(col_name).str.split(":")
@@ -18,43 +22,7 @@ def parse_mmss_seconds(col_name: str) -> pl.Expr:
     return (minutes * 60 + seconds).alias(col_name)
 
 
-def pre_process():
-
-    INPUT_PATH = "data/marathon_paris_2026.csv"
-    OUTPUT_PATH = "data/marathon_paris_2026_clean.csv"
-
-    df = pl.read_csv(INPUT_PATH)
-
-    cols_to_drop = [
-        "id",
-        "raceId",
-        "registrationCode",
-        "photoLink",
-        "videoLink",
-        "addDistance",
-        "team",
-    ]
-
-    cols_existing = [c for c in cols_to_drop if c in df.columns]
-
-    df_clean = df.drop(cols_existing)
-
-    df_clean = df_clean.with_columns([
-        parse_hhmmss_seconds("realTime"),
-        parse_hhmmss_seconds("officialTime"),
-        parse_mmss_seconds("pace"),
-    ])
-
-    df_clean.write_csv(OUTPUT_PATH)
-
-    print(f"Colonnes supprimées : {cols_existing}")
-    print(f"Shape final : {df_clean.shape}")
-
-
 def pre_process_splits():
-
-    INPUT_PATH = "PPDS-Projet-final/data/test_splits_clean.csv"
-    OUTPUT_PATH = "PPDS-Projet-final/data/donnees_finales.parquet"
 
     df = pl.read_csv(INPUT_PATH)
 
