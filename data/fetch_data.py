@@ -1,6 +1,5 @@
 import requests
 import polars as pl
-import time
 
 BASE_URL = "https://sportinnovation.fr/api/races/80626/results"
 SPLIT_URL = "https://sportinnovation.fr/api/results/{}?intermediates=1"
@@ -14,15 +13,18 @@ SPLIT_FIELDS = [
     "rankCategory", "pace", "speed", "distance", "position"
 ]
 
+
 def fetch_main_results():
     response = requests.get(BASE_URL, headers=HEADERS)
     response.raise_for_status()
     return response.json()
 
+
 def fetch_splits(result_id):
     response = requests.get(SPLIT_URL.format(result_id), headers=HEADERS)
     response.raise_for_status()
     return response.json().get("intermediates") or []
+
 
 def flatten_splits(splits: list) -> dict:
     """
@@ -39,9 +41,10 @@ def flatten_splits(splits: list) -> dict:
         idx += 1
     return flat
 
+
 def main():
     data = fetch_main_results()
-    sample = data[:]  
+    sample = data[:]
 
     rows = []
     for i, row in enumerate(sample):
@@ -60,6 +63,7 @@ def main():
     df = pl.from_dicts(rows, infer_schema_length=len(rows))
     df.write_csv("data/test_splits_clean.csv")
     print(f"Export terminé — {df.shape[0]} lignes, {df.shape[1]} colonnes")
+
 
 if __name__ == "__main__":
     main()
