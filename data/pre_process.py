@@ -1,10 +1,28 @@
 import polars as pl
 
-INPUT_PATH = "data/marathon_paris_2026.csv"
-OUTPUT_PATH = "data/marathon_paris_2026_clean.csv"
+
+def parse_hhmmss_seconds(col_name: str) -> pl.Expr:
+    """Convertit une colonne "HH:MM:SS" en Int64."""
+    split = pl.col(col_name).str.split(":")
+    hours = split.list.get(0).cast(pl.Int64)
+    minutes = split.list.get(1).cast(pl.Int64)
+    seconds = split.list.get(2).cast(pl.Int64)
+    return (hours * 3600 + minutes * 60 + seconds).alias(col_name)
 
 
-def main():
+def parse_mmss_seconds(col_name: str) -> pl.Expr:
+    """Convertit une colonne "M:SS" en Int64."""
+    split = pl.col(col_name).str.split(":")
+    minutes = split.list.get(0).cast(pl.Int64)
+    seconds = split.list.get(1).cast(pl.Int64)
+    return (minutes * 60 + seconds).alias(col_name)
+
+
+def pre_process():
+
+    INPUT_PATH = "data/marathon_paris_2026.csv"
+    OUTPUT_PATH = "data/marathon_paris_2026_clean.csv"
+
     df = pl.read_csv(INPUT_PATH)
 
     cols_to_drop = [
@@ -21,11 +39,53 @@ def main():
 
     df_clean = df.drop(cols_existing)
 
+    df_clean = df_clean.with_columns([
+        parse_hhmmss_seconds("realTime"),
+        parse_hhmmss_seconds("officialTime"),
+        parse_mmss_seconds("pace"),
+    ])
+
     df_clean.write_csv(OUTPUT_PATH)
 
     print(f"Colonnes supprimées : {cols_existing}")
     print(f"Shape final : {df_clean.shape}")
 
 
+def pre_process_splits():
+
+    INPUT_PATH = "data/test_splits_clean.csv"
+    OUTPUT_PATH = "data/test_splits_clean_v2.csv"
+
+    df = pl.read_csv(INPUT_PATH)
+
+    cols_to_drop = [
+        "id",
+        "raceId",
+        "registrationCode",
+        "photoLink",
+        "videoLink",
+        "addDistance",
+        "team",
+    ]
+
+    cols_existing = [c for c in cols_to_drop if c in df.columns]
+
+    df_clean = df.drop(cols_existing)
+
+    # Colonnes Time
+    time_cols = [c for c in df.columns if c.endswith("Time")]
+
+    # Colonnes pace
+    pace_cols = [c for c in df.columns if c.endswith("pace")]
+
+    df_clean = df_clean.with_columns(
+        [parse_hhmmss_seconds(c) for c in time_cols] +
+        [parse_mmss_seconds(c) for c in pace_cols]
+    )
+
+    df_clean.write_csv(OUTPUT_PATH)
+
+
 if __name__ == "__main__":
-    main()
+    pre_process()
+    pre_process_splits()
