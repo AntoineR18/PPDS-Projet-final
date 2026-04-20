@@ -53,8 +53,8 @@ def pre_process():
 
 def pre_process_splits():
 
-    INPUT_PATH = "data/test_splits_clean.csv"
-    OUTPUT_PATH = "data/test_splits_clean_v2.csv"
+    INPUT_PATH = "PPDS-Projet-final/data/test_splits_clean.csv"
+    OUTPUT_PATH = "PPDS-Projet-final/data/donnees_finales.parquet"
 
     df = pl.read_csv(INPUT_PATH)
 
@@ -83,9 +83,9 @@ def pre_process_splits():
         [parse_mmss_seconds(c) for c in pace_cols]
     )
 
-    df_clean.write_csv(OUTPUT_PATH)
+    df_clean.write_parquet(OUTPUT_PATH)
 
 
 if __name__ == "__main__":
-    pre_process()
+    # pre_process()
     pre_process_splits()
