@@ -1,8 +1,8 @@
 import polars as pl
 
 
-INPUT_PATH = "PPDS-Projet-final/data/test_splits_clean.csv"
-OUTPUT_PATH = "PPDS-Projet-final/data/donnees_finales.parquet"
+INPUT_PATH = "data/test_splits_clean.csv"
+OUTPUT_PATH = "data/donnees_finales.parquet"
 
 
 def parse_hhmmss_seconds(col_name: str) -> pl.Expr:
@@ -22,9 +22,10 @@ def parse_mmss_seconds(col_name: str) -> pl.Expr:
     return (minutes * 60 + seconds).alias(col_name)
 
 
-def pre_process_splits():
+def pre_process_splits(df=None):
+    if df is None:
+        df = pl.read_csv(INPUT_PATH)
 
-    df = pl.read_csv(INPUT_PATH)
 
     cols_to_drop = [
         "id",
@@ -55,5 +56,4 @@ def pre_process_splits():
 
 
 if __name__ == "__main__":
-    # pre_process()
     pre_process_splits()
