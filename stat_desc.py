@@ -51,7 +51,7 @@ def distrib_tps(quantile: float):
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_minutes))
 
     # Légende et affichage du graphe
-    plt.xlabel("Temps réel")
+    plt.xlabel("Temps réel (h)")
     plt.ylabel("Nombre de coureurs")
     plt.title(f"Distribution des temps par sexe des {quantile*100}% premiers concurrents")
     plt.show()
