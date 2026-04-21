@@ -1,4 +1,4 @@
-# Marathon de Paris 2026 — Prédiction du temps final
+# Marathon de Paris 2026
 
 **Elèves**: Antoine Rustenholz, Jasmin Neveu, Aziz Seghaier
 
