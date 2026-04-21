@@ -30,22 +30,43 @@ def pre_process_splits(df=None):
     cols_to_drop = [
         "id",
         "raceId",
-        "registrationCode",
         "photoLink",
         "videoLink",
+        "registrationCode",
+        "pace",
         "addDistance",
-        "team",
+        "generalRanking",
+        "sexRanking",
+        "categoryRanking"
     ]
+
+    cols_to_drop_split_suffix = [
+        "position",
+        "location",
+        "officialTime",
+        "pace",
+        "rankGeneral",
+        "rankSex",
+        "rankCategory"
+    ]
+
+    cols_to_drop = cols_to_drop + [
+        f"split_{n}_" + suff for n in range(1, 11) for suff in cols_to_drop_split_suffix
+        ]
 
     cols_existing = [c for c in cols_to_drop if c in df.columns]
 
-    df_clean = df.drop(cols_existing)
+    df_clean = df.filter(
+        [pl.col(f"split_{n}_position") == n+1 for n in range(1, 11)]
+    )
+
+    df_clean = df_clean.drop(cols_existing)
 
     # Colonnes Time
-    time_cols = [c for c in df.columns if c.endswith("Time")]
+    time_cols = [c for c in df_clean.columns if c.endswith("Time")]
 
     # Colonnes pace
-    pace_cols = [c for c in df.columns if c.endswith("pace")]
+    pace_cols = [c for c in df_clean.columns if c.endswith("pace")]
 
     df_clean = df_clean.with_columns(
         [parse_hhmmss_seconds(c) for c in time_cols] +
