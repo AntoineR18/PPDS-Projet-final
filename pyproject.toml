@@ -8,6 +8,7 @@ dependencies = [
     "great-tables>=0.21.0",
     "ipykernel>=7.2.0",
     "matplotlib>=3.10.8",
+    "pathlib>=1.0.1",
     "polars>=1.39.3",
     "pyarrow>=24.0.0",
     "requests>=2.33.1",
