@@ -73,6 +73,12 @@ def pre_process_splits(df=None):
         [parse_mmss_seconds(c) for c in pace_cols]
     )
 
+    df_clean = df_clean.filter(
+        pl.all_horizontal(
+            [pl.col(f"split_{n}_speed").is_not_null() for n in range(1, 11)]
+        )
+    )
+
     df_clean.write_parquet(OUTPUT_PATH)
 
 
