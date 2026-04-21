@@ -79,6 +79,10 @@ def pre_process_splits(df=None):
         )
     )
 
+    df_clean = df_clean.with_columns(
+        (pl.col("officialTime") - pl.col("realTime")).alias("officialTime")
+    ).rename({"officialTime":"retardTime"})
+
     df_clean.write_parquet(OUTPUT_PATH)
 
 
