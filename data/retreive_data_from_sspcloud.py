@@ -1,6 +1,6 @@
 import s3fs
 import polars as pl
-from pre_process import pre_process_splits, INPUT_PATH,OUTPUT_PATH
+from pre_process import pre_process_splits, INPUT_PATH, OUTPUT_PATH
 
 fs = s3fs.S3FileSystem(client_kwargs={"endpoint_url": "https://minio.lab.sspcloud.fr"})
 
@@ -13,8 +13,3 @@ if __name__ == "__main__":
         df.write_csv(INPUT_PATH)
 
     pre_process_splits(df)
-
-
-
-
-
