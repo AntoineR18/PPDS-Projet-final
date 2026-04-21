@@ -1,3 +1,4 @@
+
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
@@ -8,31 +9,36 @@ N_SPLITS: int = 3
 
 NATIONALITY_MIN_COUNT: int = 100
 
-TARGET: str = "officialTime"
+TARGET: str = "realTime"
 
 COLUMNS_TO_DROP: list[str] = [
     "bib",
     "firstName",
     "lastName",
-    "realTime",        
+    "officialTime",    
     "pace",            
-    "averageSpeed",   
-    "generalRanking", 
-    "sexRanking",       
-    "categoryRanking",  
+    "averageSpeed",    
+    "generalRanking",  
+    "sexRanking",    
+    "categoryRanking",
+    "raceid",
+    "team",
+    "photoLink",
+    "videoLink",
+    "registrationCode",
+    "id",
 ]
 
 SPLIT_COLUMNS_TO_DROP_SUFFIXES: list[str] = [
     "rankGeneral",
     "rankSex",
     "rankCategory",
-    "location",      
-    "position",     
-    "pace",         
-    "realTime",     
-    "officialTime", 
-    "distance",
-    
+    "location",     
+    "position",      
+    "pace",          
+    "realTime",      
+    "officialTime",  
+    "distance",      
 ]
 
 RANDOM_STATE: int = 42

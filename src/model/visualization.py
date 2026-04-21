@@ -3,7 +3,7 @@ import numpy as np
 import polars as pl
 import seaborn as sns
 
-from config import CONFIDENCE_LEVEL
+from src.model.config import CONFIDENCE_LEVEL
 
 sns.set_theme(style="whitegrid", palette="muted")
 

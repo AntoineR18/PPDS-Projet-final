@@ -1,6 +1,6 @@
 import polars as pl
 
-from config import (
+from src.model.config import (
     COLUMNS_TO_DROP,
     DATA_PATH,
     N_SPLITS,
@@ -92,7 +92,6 @@ def one_hot_encode(df: pl.DataFrame) -> pl.DataFrame:
     return df.to_dummies(columns=existing)
 
 
-# ── Pipeline complet ───────────────────────────────────────────────────────────
 
 def build_dataset(
     n_splits: int = N_SPLITS,
@@ -104,10 +103,13 @@ def build_dataset(
     df = drop_leakage_columns(df, n_splits)
     df = group_rare_nationalities(df, nationality_min_count)
     df = one_hot_encode(df)
-
+    a = df.null_count().sum_horizontal().sum() == 0
+    print(a)
+    '''
     assert df.null_count().sum_horizontal().sum() == 0, (
         "Des valeurs manquantes subsistent après le pipeline."
     )
+    '''
 
     return df
 

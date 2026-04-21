@@ -5,7 +5,7 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from config import (
+from src.model.config import (
     CV_FOLDS,
     ELASTICNET_ALPHAS,
     ELASTICNET_L1_RATIOS,

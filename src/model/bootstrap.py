@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.pipeline import Pipeline
 
-from config import CONFIDENCE_LEVEL, N_BOOTSTRAP, RANDOM_STATE
+from src.model.config import CONFIDENCE_LEVEL, N_BOOTSTRAP, RANDOM_STATE
 
 
 def bootstrap_confidence_intervals(
