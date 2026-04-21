@@ -15,36 +15,14 @@
 
 Les hyperparamètres sont sélectionnés par validation croisée à 5 folds (critère : RMSE).
 
-## Installation
-
-```bash
-# Création de l'environnement virtuelle
-uv venv
-
-# Activation
-source .venv/bin/activate
-
 # Installation des dépendances
-uv sync
-```
 
-## Structure du projet
+```uv sync```
 
-```
-.
-├── data/
-│   ├── donnees_finales.parquet   # Jeu de données final
-│   ├── fetch_data.py             # Script de collecte API
-│   └── pre_process.py            # Preprocessing
-├── src/model/
-│   ├── bootstrap.py             # Intervalles de confiance bootstrap
-│   ├── config.py                # Configuration globale
-│   ├── data_engineering.py      # Pipeline de préparation des données
-│   ├── train.py                 # Entraînement Ridge et ElasticNet
-│   └── visualization.py         # Graphiques
-├── main.ipynb                   # Notebook principal
-└── pyproject.toml              # Dépendances Python
-```
+# Importation des données
+
+1. Devoir Gitclone depuis une instance SSPCloud pour avoir accès à la bucket s3
+2. Lancer le fichier retreive_data_from_sspcloud.py avec la commande ```uv run data/retreive_data_from_sspcloud.py```
 
 ## Utilisation
 
